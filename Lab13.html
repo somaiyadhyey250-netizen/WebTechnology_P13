@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Registration Form</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 30px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        form {
+            width: 400px;
+            margin: auto;
+            background-color: white;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px gray;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border: 1px solid #aaa;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        input:focus,
+        textarea:focus,
+        select:focus {
+            border-color: blue;
+            outline: none;
+        }
+
+        input[type="radio"] {
+            margin-right: 5px;
+        }
+
+        input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            background-color: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #1d4ed8;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>STUDENT REG FORM</h1>
+
+    <form id="studentForm" onsubmit="return validateMyform()">
+
+        Enrollment Number:
+        <br>
+        <input type="text" id="enrollment">
+        <br><br>
+
+        Name:
+        <br>
+        <input type="text" id="name">
+        <br><br>
+
+        Email ID:
+        <br>
+        <input type="email" id="email">
+        <br><br>
+
+        Password:
+        <br>
+        <input type="password" id="password">
+        <br><br>
+
+        Confirm Password:
+        <br>
+        <input type="password" id="confirmPassword">
+        <br><br>
+
+        Phone Number:
+        <br>
+        <input type="text" id="phone">
+        <br><br>
+
+        Address:
+        <br>
+        <textarea id="address" rows="3" cols="30"></textarea>
+        <br><br>
+
+        Gender:
+        <br>
+
+        <input type="radio" name="gender" value="Male">
+        Male
+
+        <input type="radio" name="gender" value="Female">
+        Female
+
+        <br><br>
+
+        Branch:
+        <br>
+
+        <select id="branch">
+            <option value="">--Select Branch--</option>
+            <option value="Computer Engineering">Computer Engineering</option>
+            <option value="IT Engineering">IT Engineering</option>
+            <option value="Electronics">Electronics</option>
+            <option value="Mechanical">Mechanical</option>
+            <option value="Civil">Civil</option>
+        </select>
+
+        <br><br>
+
+        <input type="submit" value="Submit">
+
+    </form>
+
+    <script>
+        function validateMyform() {
+
+            let enrollment = document.getElementById("enrollment").value.trim();
+            let name = document.getElementById("name").value.trim();
+            let email = document.getElementById("email").value.trim();
+            let password = document.getElementById("password").value;
+            let confirmPassword = document.getElementById("confirmPassword").value;
+            let phone = document.getElementById("phone").value.trim();
+            let address = document.getElementById("address").value.trim();
+
+            let gender = document.querySelector(
+                'input[name="gender"]:checked'
+            );
+
+            let branch = document.getElementById("branch").value;
+
+            if (
+                enrollment === "" ||
+                name === "" ||
+                email === "" ||
+                password === "" ||
+                confirmPassword === "" ||
+                phone === "" ||
+                address === "" ||
+                !gender ||
+                branch === ""
+            ) {
+                alert("Please fill out all details.");
+                return false;
+            }
+
+            let enrollmentPattern = /^[0-9]{8}$/;
+
+            if (!enrollmentPattern.test(enrollment)) {
+                alert("Enrollment number must contain exactly 8 digits.");
+                return false;
+            }
+
+            let namePattern = /^[A-Za-z ]+$/;
+
+            if (!namePattern.test(name)) {
+                alert("Name should contain only alphabets and spaces.");
+                return false;
+            }
+
+            if (name.length < 3 || name.length > 50) {
+                alert("Name must be between 3 and 50 characters.");
+                return false;
+            }
+
+            let emailPattern =
+                /^[a-zA-Z]+[0-9]{6}@marwadiuniversity\.ac\.in$/;
+
+            if (!emailPattern.test(email)) {
+                alert("Please enter a valid Marwadi University email address.");
+                return false;
+            }
+
+            if (password.length < 8) {
+                alert("Password must be at least 8 characters long.");
+                return false;
+            }
+
+            if (!/[A-Z]/.test(password)) {
+                alert("Password must contain an uppercase letter.");
+                return false;
+            }
+
+            if (!/[a-z]/.test(password)) {
+                alert("Password must contain a lowercase letter.");
+                return false;
+            }
+
+            if (!/[0-9]/.test(password)) {
+                alert("Password must contain a number.");
+                return false;
+            }
+
+            if (!/[!@#$%^&*]/.test(password)) {
+                alert("Password must contain a special character.");
+                return false;
+            }
+
+            if (/\s/.test(password)) {
+                alert("Password must not contain spaces.");
+                return false;
+            }
+
+            if (password !== confirmPassword) {
+                alert("Password and Confirm Password do not match.");
+                return false;
+            }
+
+            let phonePattern = /^[6-9][0-9]{9}$/;
+
+            if (!phonePattern.test(phone)) {
+                alert("Please enter a valid 10-digit phone number.");
+                return false;
+            }
+
+            if (address.length < 10) {
+                alert("Address must contain at least 10 characters.");
+                return false;
+            }
+
+            if (address.length > 200) {
+                alert("Address cannot exceed 200 characters.");
+                return false;
+            }
+
+            alert("Form Submitted Successfully!");
+
+            return true;
+        }
+    </script>
+
+</body>
+
+</html>
